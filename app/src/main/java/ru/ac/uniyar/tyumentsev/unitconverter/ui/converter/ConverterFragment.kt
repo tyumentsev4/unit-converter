@@ -4,16 +4,13 @@ import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import ru.ac.uniyar.tyumentsev.unitconverter.R
 import ru.ac.uniyar.tyumentsev.unitconverter.databinding.ConverterFragmentBinding
 
@@ -83,13 +80,13 @@ class ConverterFragment : Fragment() {
 
         viewModel.firstNumber.observe(viewLifecycleOwner) {
             binding.firstNumber.removeTextChangedListener(firstNumberWatcher)
-            binding.firstNumber.setText(it.toString())
+            binding.firstNumber.setText(String.format("%.2f", it))
             binding.firstNumber.addTextChangedListener(firstNumberWatcher)
         }
 
         viewModel.secondNumber.observe(viewLifecycleOwner) {
             binding.secondNumber.removeTextChangedListener(secondNumberWatcher)
-            binding.secondNumber.setText(it.toString())
+            binding.secondNumber.setText(String.format("%.2f", it))
             binding.secondNumber.addTextChangedListener(secondNumberWatcher)
         }
 
@@ -106,7 +103,6 @@ class ConverterFragment : Fragment() {
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             val newValue = s?.toString()?.toDoubleOrNull() ?: 0.0
-            Log.i("ConverterFragment", "first new value ${newValue}")
             viewModel.calculateSecondNumber(newValue)
         }
     }
@@ -118,7 +114,6 @@ class ConverterFragment : Fragment() {
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             val newValue = s?.toString()?.toDoubleOrNull() ?: 0.0
-            Log.i("ConverterFragment", "second new value ${newValue}}")
             viewModel.calculateFirstNumber(newValue)
         }
     }

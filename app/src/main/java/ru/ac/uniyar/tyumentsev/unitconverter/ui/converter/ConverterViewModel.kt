@@ -9,6 +9,7 @@ import ru.ac.uniyar.tyumentsev.unitconverter.models.Unit
 class ConverterViewModel : ViewModel() {
     fun changeConverter(position: Int) {
         _converter.value = converters[position]
+        resetValues()
     }
 
     fun getUnitNames(): List<String> {
@@ -76,6 +77,7 @@ class ConverterViewModel : ViewModel() {
 
     fun setFirstNumberUnit(position: Int) {
         _firstNumberUnit.value = _converter.value!!.units[position]
+        _secondNumber.value = _firstNumber.value!! * _firstNumberUnit.value!!.value / _secondNumberUnit.value!!.value
     }
 
     private val _secondNumber = MutableLiveData<Double>()
@@ -93,5 +95,18 @@ class ConverterViewModel : ViewModel() {
 
     fun setSecondNumberUnit(position: Int) {
         _secondNumberUnit.value = _converter.value!!.units[position]
+        _firstNumber.value = _secondNumber.value!! * _secondNumberUnit.value!!.value / _firstNumberUnit.value!!.value
+    }
+
+    init {
+        _converter.value = converters[0]
+        resetValues()
+    }
+
+    private fun resetValues() {
+        _firstNumber.value = 0.0
+        _secondNumber.value = 0.0
+        _firstNumberUnit.value = _converter.value!!.units[0]
+        _secondNumberUnit.value = _converter.value!!.units[1]
     }
 }
