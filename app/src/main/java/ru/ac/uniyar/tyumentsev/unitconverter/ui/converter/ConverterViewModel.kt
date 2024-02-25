@@ -72,9 +72,6 @@ class ConverterViewModel : ViewModel() {
 
     private val _firstNumberUnit = MutableLiveData<Unit>()
 
-    val firstNumberUnit: LiveData<Unit>
-        get() = _firstNumberUnit
-
     fun setFirstNumberUnit(position: Int) {
         _firstNumberUnit.value = _converter.value!!.units[position]
         _secondNumber.value = _firstNumber.value!! * _firstNumberUnit.value!!.value / _secondNumberUnit.value!!.value
@@ -89,9 +86,6 @@ class ConverterViewModel : ViewModel() {
     }
 
     private val _secondNumberUnit = MutableLiveData<Unit>()
-
-    val secondNumberUnit: LiveData<Unit>
-        get() = _secondNumberUnit
 
     fun setSecondNumberUnit(position: Int) {
         _secondNumberUnit.value = _converter.value!!.units[position]
