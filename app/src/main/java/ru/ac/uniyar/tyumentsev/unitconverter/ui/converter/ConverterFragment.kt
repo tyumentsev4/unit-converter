@@ -1,18 +1,21 @@
 package ru.ac.uniyar.tyumentsev.unitconverter.ui.converter
 
-import androidx.lifecycle.ViewModelProvider
+import android.icu.text.DecimalFormat
+import android.icu.text.NumberFormat
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import ru.ac.uniyar.tyumentsev.unitconverter.R
 import ru.ac.uniyar.tyumentsev.unitconverter.databinding.ConverterFragmentBinding
+
 
 class ConverterFragment : Fragment() {
 
@@ -40,17 +43,37 @@ class ConverterFragment : Fragment() {
                     parent: AdapterView<*>?, view: View?, position: Int, id: Long
                 ) {
                     viewModel.changeConverter(position)
+                    val adapter = ArrayAdapter(
+                        requireContext(),
+                        android.R.layout.simple_spinner_dropdown_item,
+                        viewModel.getUnitNames()
+                    )
+                    binding.firstNumberUnit.adapter = adapter
+                    binding.firstNumberUnit.setSelection(viewModel.firstNumberUnitPosition.value ?: 0)
+                    binding.secondNumberUnit.adapter = adapter
+                    binding.secondNumberUnit.setSelection(viewModel.secondNumberUnitPosition.value ?: 1)
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
+
+        viewModel.firstNumberUnitPosition.observe(viewLifecycleOwner) {
+            binding.firstNumberUnit.setSelection(it)
+        }
+
+        viewModel.secondNumberUnitPosition.observe(viewLifecycleOwner) {
+            binding.secondNumberUnit.setSelection(it)
+        }
 
         binding.firstNumberUnit.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?, view: View?, position: Int, id: Long
                 ) {
-                    viewModel.setFirstNumberUnit(position)
+                    viewModel.setFirstNumberUnit(
+                        position,
+                        binding.firstNumber.text.toString().toDoubleOrNull() ?: 0.0
+                    )
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -61,32 +84,34 @@ class ConverterFragment : Fragment() {
                 override fun onItemSelected(
                     parent: AdapterView<*>?, view: View?, position: Int, id: Long
                 ) {
-                    viewModel.setSecondNumberUnit(position)
+                    viewModel.setSecondNumberUnit(
+                        position,
+                        binding.firstNumber.text.toString().toDoubleOrNull() ?: 0.0
+                    )
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
 
-        viewModel.converter.observe(viewLifecycleOwner) {
-            val adapter = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_spinner_dropdown_item,
-                viewModel.getUnitNames()
-            )
-            binding.firstNumberUnit.adapter = adapter
-            binding.secondNumberUnit.adapter = adapter
-            binding.secondNumberUnit.setSelection(1)
-        }
-
         viewModel.firstNumber.observe(viewLifecycleOwner) {
             binding.firstNumber.removeTextChangedListener(firstNumberWatcher)
-            binding.firstNumber.setText(String.format("%.2f", it))
+            if (it != 0.0) {
+                val nf: NumberFormat = DecimalFormat("##.###")
+                binding.firstNumber.setText(nf.format(it))
+            } else {
+                binding.firstNumber.setText("")
+            }
             binding.firstNumber.addTextChangedListener(firstNumberWatcher)
         }
 
         viewModel.secondNumber.observe(viewLifecycleOwner) {
             binding.secondNumber.removeTextChangedListener(secondNumberWatcher)
-            binding.secondNumber.setText(String.format("%.2f", it))
+            if (it != 0.0) {
+                val nf: NumberFormat = DecimalFormat("##.###")
+                binding.secondNumber.setText(nf.format(it))
+            } else {
+                binding.secondNumber.setText("")
+            }
             binding.secondNumber.addTextChangedListener(secondNumberWatcher)
         }
 

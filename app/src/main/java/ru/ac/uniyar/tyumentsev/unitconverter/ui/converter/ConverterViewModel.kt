@@ -1,5 +1,6 @@
 package ru.ac.uniyar.tyumentsev.unitconverter.ui.converter
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,8 +9,8 @@ import ru.ac.uniyar.tyumentsev.unitconverter.models.Unit
 
 class ConverterViewModel : ViewModel() {
     fun changeConverter(position: Int) {
+        Log.i("debug", "AAAAAAAAAAAAAAAAAAAAA")
         _converter.value = converters[position]
-        resetValues()
     }
 
     fun getUnitNames(): List<String> {
@@ -25,10 +26,10 @@ class ConverterViewModel : ViewModel() {
                 Unit("cm", 0.01),
                 Unit("dm", 0.1),
                 Unit("km", 1000.0),
-                Unit("mile", 1609.35),
-                Unit("yard", 0.9144),
-                Unit("foot", 0.3048),
-                Unit("inch", 0.0254)
+                Unit("mi", 1609.35),
+                Unit("yd", 0.9144),
+                Unit("ft", 0.3048),
+                Unit("in", 0.0254)
             )
         ),
         Converter(
@@ -47,14 +48,14 @@ class ConverterViewModel : ViewModel() {
         Converter(
             "area",
             listOf(
-                Unit("m^3", 1.0),
+                Unit("m³", 1.0),
                 Unit("mL", 1000000.0),
                 Unit("L", 1000.0),
                 Unit("pt", 2113.376),
                 Unit("kw", 1056.688),
                 Unit("gal", 1056.688),
-                Unit("ft^3", 35.315),
-                Unit("in^3", 1023.744),
+                Unit("ft³", 35.315),
+                Unit("in³", 1023.744),
             )
         ),
     )
@@ -67,40 +68,50 @@ class ConverterViewModel : ViewModel() {
         get() = _firstNumber
 
     fun calculateFirstNumber(number: Double) {
-        _firstNumber.value = number * _secondNumberUnit.value!!.value / _firstNumberUnit.value!!.value
+        _firstNumber.value =
+            number * getSecondNumberUnit().value / getFirstNumberUnit().value
     }
 
-    private val _firstNumberUnit = MutableLiveData<Unit>()
+    fun calculateSecondNumber(number: Double) {
+        _secondNumber.value =
+            number * getFirstNumberUnit().value / getSecondNumberUnit().value
+    }
 
-    fun setFirstNumberUnit(position: Int) {
-        _firstNumberUnit.value = _converter.value!!.units[position]
-        _secondNumber.value = _firstNumber.value!! * _firstNumberUnit.value!!.value / _secondNumberUnit.value!!.value
+    private val _firstNumberUnitPosition = MutableLiveData<Int>()
+    val firstNumberUnitPosition: LiveData<Int>
+        get() = _firstNumberUnitPosition
+
+    fun setFirstNumberUnit(position: Int, value: Double) {
+        _firstNumberUnitPosition.value = position
+        calculateSecondNumber(value)
     }
 
     private val _secondNumber = MutableLiveData<Double>()
     val secondNumber: LiveData<Double>
         get() = _secondNumber
 
-    fun calculateSecondNumber(number: Double) {
-        _secondNumber.value = number * _firstNumberUnit.value!!.value / _secondNumberUnit.value!!.value
+    private val _secondNumberUnitPosition = MutableLiveData<Int>()
+    val secondNumberUnitPosition: LiveData<Int>
+        get() = _secondNumberUnitPosition
+
+    fun setSecondNumberUnit(position: Int, value: Double) {
+        _secondNumberUnitPosition.value = position
+        calculateSecondNumber(value)
     }
 
-    private val _secondNumberUnit = MutableLiveData<Unit>()
+    private fun getFirstNumberUnit(): Unit {
+        return converter.value!!.units[_firstNumberUnitPosition.value!!]
+    }
 
-    fun setSecondNumberUnit(position: Int) {
-        _secondNumberUnit.value = _converter.value!!.units[position]
-        _firstNumber.value = _secondNumber.value!! * _secondNumberUnit.value!!.value / _firstNumberUnit.value!!.value
+    private fun getSecondNumberUnit(): Unit {
+        return converter.value!!.units[_secondNumberUnitPosition.value!!]
     }
 
     init {
-        _converter.value = converters[0]
-        resetValues()
-    }
-
-    private fun resetValues() {
         _firstNumber.value = 0.0
         _secondNumber.value = 0.0
-        _firstNumberUnit.value = _converter.value!!.units[0]
-        _secondNumberUnit.value = _converter.value!!.units[1]
+        _converter.value = converters[0]
+        _firstNumberUnitPosition.value = 0
+        _secondNumberUnitPosition.value = 1
     }
 }
