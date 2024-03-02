@@ -40,10 +40,10 @@ class ConverterFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)[ConverterViewModel::class.java]
 
         viewModel.converters.observe(viewLifecycleOwner) {
-            val converterPickerAdapter = viewModel.converters.value?.let {
+            val converterPickerAdapter = viewModel.converters.value?.let { converter ->
                 ArrayAdapter(requireContext(),
                     android.R.layout.simple_spinner_dropdown_item,
-                    it.map { it.name })
+                    converter.map { it.name })
             }
 
             binding.converterPicker.adapter = converterPickerAdapter
@@ -67,8 +67,7 @@ class ConverterFragment : Fragment() {
                 override fun onItemSelected(
                     parent: AdapterView<*>?, view: View?, position: Int, id: Long
                 ) {
-                    Log.i("aaa", position.toString())
-                    viewModel.changeConverter(position)
+                    viewModel.setConverter(position)
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -82,14 +81,21 @@ class ConverterFragment : Fragment() {
             binding.secondNumberUnit.setSelection(it)
         }
 
+        viewModel.converterPosition.observe(viewLifecycleOwner) {
+            binding.converterPicker.setSelection(it)
+        }
+
         binding.firstNumberUnit.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?, view: View?, position: Int, id: Long
                 ) {
+                    Log.i("first unit", position.toString())
                     viewModel.setFirstNumberUnit(
                         position,
+                        binding.firstNumber.text.toString().toDoubleOrNull() ?: 0.0
                     )
+
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -100,8 +106,10 @@ class ConverterFragment : Fragment() {
                 override fun onItemSelected(
                     parent: AdapterView<*>?, view: View?, position: Int, id: Long
                 ) {
+                    Log.i("second unit", position.toString())
                     viewModel.setSecondNumberUnit(
                         position,
+                        binding.firstNumber.text.toString().toDoubleOrNull() ?: 0.0
                     )
                 }
 

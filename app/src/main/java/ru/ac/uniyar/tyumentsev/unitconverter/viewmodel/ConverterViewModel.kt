@@ -1,6 +1,5 @@
 package ru.ac.uniyar.tyumentsev.unitconverter.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,61 +11,61 @@ import ru.ac.uniyar.tyumentsev.unitconverter.repository.ConverterRepository
 
 class ConverterViewModel(private val repository: ConverterRepository) : ViewModel() {
     private val _converters = MutableLiveData<List<ConverterEntity>>()
-    val converters: LiveData<List<ConverterEntity>> = _converters
-
-    // LiveData for the selected converter
-    private val _converter = MutableLiveData<ConverterEntity>()
-    val converter: LiveData<ConverterEntity> = _converter
-
-    // LiveData for units of the selected converter
+    val converters: LiveData<List<ConverterEntity>>
+        get() = _converters
     private val _unitsForSelectedConverter = MutableLiveData<List<UnitEntity>>()
-    val unitsForSelectedConverter: LiveData<List<UnitEntity>> = _unitsForSelectedConverter
+    val unitsForSelectedConverter: LiveData<List<UnitEntity>>
+        get() = _unitsForSelectedConverter
 
-    // LiveData for positions of selected units in the spinner
-    val firstNumberUnitPosition = MutableLiveData<Int>()
-    val secondNumberUnitPosition = MutableLiveData<Int>()
+    private val _firstNumberUnitPosition = MutableLiveData<Int>()
+    val firstNumberUnitPosition: LiveData<Int>
+        get() = _firstNumberUnitPosition
+    private val _secondNumberUnitPosition = MutableLiveData<Int>()
+    val secondNumberUnitPosition: LiveData<Int>
+        get() = _secondNumberUnitPosition
+    private val _converterPosition = MutableLiveData<Int>()
+    val converterPosition: LiveData<Int>
+        get() = _converterPosition
 
-    // LiveData for conversion results
-    val firstNumber = MutableLiveData<Double>()
-    val secondNumber = MutableLiveData<Double>()
+    private val _firstNumber = MutableLiveData<Double>()
+    val firstNumber: LiveData<Double>
+        get() = _firstNumber
+    private val _secondNumber = MutableLiveData<Double>()
+    val secondNumber: LiveData<Double>
+        get() = _secondNumber
 
     init {
-        Log.i("aaaa", "sssss")
         loadConverters()
-        loadUnitsForConverter()
     }
 
     private fun loadConverters() {
-        Log.i("load", "load converters")
         viewModelScope.launch {
             _converters.value = repository.getConverters()
-            _converter.value = converters.value?.get(0)
-            Log.i("aaaa", _converters.value.toString())
+            setConverter(0)
         }
     }
 
-    fun loadUnitsForConverter() {
-        Log.i("load", "load units")
+    private fun loadUnitsForConverter() {
         viewModelScope.launch {
-            _unitsForSelectedConverter.value = _converter.value?.let {
+            _unitsForSelectedConverter.value = getConverter().let {
                 repository.getUnitsForConverter(
-                    it.id)
+                    it.id
+                )
             }
         }
     }
 
-    fun changeConverter(position: Int) {
-        Log.i("ccc", "change conertor")
-        _converter.value = converters.value?.get(position)
-        loadUnitsForConverter()
+    private fun getConverter(): ConverterEntity {
+        return converters.value!![converterPosition.value!!]
     }
+
     fun calculateFirstNumber(number: Double) {
-        firstNumber.value =
+        _firstNumber.value =
             number * getSecondNumberUnit() / getFirstNumberUnit()
     }
 
     fun calculateSecondNumber(number: Double) {
-        secondNumber.value =
+        _secondNumber.value =
             number * getFirstNumberUnit() / getSecondNumberUnit()
     }
 
@@ -82,11 +81,24 @@ class ConverterViewModel(private val repository: ConverterRepository) : ViewMode
         return _unitsForSelectedConverter.value?.map { it.name } ?: emptyList()
     }
 
-    fun setFirstNumberUnit(position: Int) {
-        firstNumberUnitPosition.value = position
+    fun setFirstNumberUnit(position: Int, value: Double?) {
+        _firstNumberUnitPosition.value = position
+        if (value != null) {
+            calculateSecondNumber(value)
+        }
     }
 
-    fun setSecondNumberUnit(position: Int) {
-        secondNumberUnitPosition.value = position
+    fun setSecondNumberUnit(position: Int, value: Double?) {
+        _secondNumberUnitPosition.value = position
+        if (value != null) {
+            calculateSecondNumber(value)
+        }
+    }
+
+    fun setConverter(position: Int) {
+        _converterPosition.value = position
+        _firstNumberUnitPosition.value = 0
+        _secondNumberUnitPosition.value = 1
+        loadUnitsForConverter()
     }
 }
