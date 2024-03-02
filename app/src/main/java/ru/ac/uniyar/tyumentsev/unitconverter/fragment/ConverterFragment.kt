@@ -1,4 +1,4 @@
-package ru.ac.uniyar.tyumentsev.unitconverter.ui.converter
+package ru.ac.uniyar.tyumentsev.unitconverter.fragment
 
 import android.icu.text.DecimalFormat
 import android.icu.text.NumberFormat
@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import ru.ac.uniyar.tyumentsev.unitconverter.R
 import ru.ac.uniyar.tyumentsev.unitconverter.databinding.ConverterFragmentBinding
+import ru.ac.uniyar.tyumentsev.unitconverter.viewmodel.ConverterViewModel
 
 
 class ConverterFragment : Fragment() {
@@ -31,9 +32,11 @@ class ConverterFragment : Fragment() {
         )
         viewModel = ViewModelProvider(this)[ConverterViewModel::class.java]
 
-        val converterPickerAdapter = ArrayAdapter(requireContext(),
-            android.R.layout.simple_spinner_dropdown_item,
-            viewModel.converters.map { it.name })
+        val converterPickerAdapter = viewModel.converters.value?.let {
+            ArrayAdapter(requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                it.map { it.name })
+        }
 
         binding.converterPicker.adapter = converterPickerAdapter
 
@@ -72,7 +75,6 @@ class ConverterFragment : Fragment() {
                 ) {
                     viewModel.setFirstNumberUnit(
                         position,
-                        binding.firstNumber.text.toString().toDoubleOrNull() ?: 0.0
                     )
                 }
 
@@ -86,7 +88,6 @@ class ConverterFragment : Fragment() {
                 ) {
                     viewModel.setSecondNumberUnit(
                         position,
-                        binding.firstNumber.text.toString().toDoubleOrNull() ?: 0.0
                     )
                 }
 

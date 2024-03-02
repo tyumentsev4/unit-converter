@@ -1,4 +1,4 @@
-package ru.ac.uniyar.tyumentsev.unitconverter.ui.converter
+package ru.ac.uniyar.tyumentsev.unitconverter.viewmodel
 
 import androidx.lifecycle.ViewModel
 

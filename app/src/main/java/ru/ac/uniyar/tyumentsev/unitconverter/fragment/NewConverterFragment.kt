@@ -1,4 +1,4 @@
-package ru.ac.uniyar.tyumentsev.unitconverter.ui.converter
+package ru.ac.uniyar.tyumentsev.unitconverter.fragment
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import ru.ac.uniyar.tyumentsev.unitconverter.R
 import ru.ac.uniyar.tyumentsev.unitconverter.databinding.NewConverterFragmentBinding
+import ru.ac.uniyar.tyumentsev.unitconverter.viewmodel.NewConverterViewModel
 
 class NewConverterFragment : Fragment() {
 

@@ -6,7 +6,7 @@
     app:startDestination="@id/converterFragment">
     <fragment
         android:id="@+id/converterFragment"
-        android:name="ru.ac.uniyar.tyumentsev.unitconverter.ui.converter.ConverterFragment"
+        android:name="ru.ac.uniyar.tyumentsev.unitconverter.fragment.ConverterFragment"
         android:label="ConverterFragment" >
         <action
             android:id="@+id/action_converterFragment_to_newConverterFragment"
@@ -14,7 +14,7 @@
     </fragment>
     <fragment
         android:id="@+id/newConverterFragment"
-        android:name="ru.ac.uniyar.tyumentsev.unitconverter.ui.converter.NewConverterFragment"
+        android:name="ru.ac.uniyar.tyumentsev.unitconverter.fragment.NewConverterFragment"
         android:label="NewConverterFragment" >
         <action
             android:id="@+id/action_newConverterFragment_to_converterFragment"
