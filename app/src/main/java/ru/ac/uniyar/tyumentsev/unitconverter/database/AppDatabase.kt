@@ -9,7 +9,7 @@ import ru.ac.uniyar.tyumentsev.unitconverter.dao.ConverterDao
 import ru.ac.uniyar.tyumentsev.unitconverter.entities.ConverterEntity
 import ru.ac.uniyar.tyumentsev.unitconverter.entities.UnitEntity
 
-@Database(entities = [ConverterEntity::class, UnitEntity::class], version = 1)
+@Database(entities = [ConverterEntity::class, UnitEntity::class], version = 1, exportSchema = true)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun converterDao(): ConverterDao
 

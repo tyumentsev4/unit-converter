@@ -26,7 +26,7 @@ class ConverterDatabaseCallback(
         val converters = listOf(
             ConverterEntity(name = "length"),
             ConverterEntity(name = "weight"),
-            ConverterEntity(name = "area")
+            ConverterEntity(name = "volume")
         )
 
         converters.forEach { converter ->
