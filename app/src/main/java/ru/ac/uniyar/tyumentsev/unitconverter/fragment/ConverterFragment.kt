@@ -1,10 +1,11 @@
-package ru.ac.uniyar.tyumentsev.unitconverter.ui.converter
+package ru.ac.uniyar.tyumentsev.unitconverter.fragment
 
 import android.icu.text.DecimalFormat
 import android.icu.text.NumberFormat
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import ru.ac.uniyar.tyumentsev.unitconverter.R
+import ru.ac.uniyar.tyumentsev.unitconverter.database.AppDatabase
 import ru.ac.uniyar.tyumentsev.unitconverter.databinding.ConverterFragmentBinding
+import ru.ac.uniyar.tyumentsev.unitconverter.repository.ConverterRepository
+import ru.ac.uniyar.tyumentsev.unitconverter.viewmodel.ConverterViewModel
+import ru.ac.uniyar.tyumentsev.unitconverter.viewmodel.ConverterViewModelFactory
 
 
 class ConverterFragment : Fragment() {
@@ -29,29 +34,41 @@ class ConverterFragment : Fragment() {
         binding = DataBindingUtil.inflate(
             inflater, R.layout.converter_fragment, container, false
         )
-        viewModel = ViewModelProvider(this)[ConverterViewModel::class.java]
+        val application = requireNotNull(this.activity).application
+        val dao = AppDatabase.getDatabase(application).converterDao()
+        val viewModelFactory = ConverterViewModelFactory(ConverterRepository(dao))
+        viewModel = ViewModelProvider(this, viewModelFactory)[ConverterViewModel::class.java]
 
-        val converterPickerAdapter = ArrayAdapter(requireContext(),
-            android.R.layout.simple_spinner_dropdown_item,
-            viewModel.converters.map { it.name })
+        viewModel.converters.observe(viewLifecycleOwner) {
+            val converterPickerAdapter = viewModel.converters.value?.let {
+                ArrayAdapter(requireContext(),
+                    android.R.layout.simple_spinner_dropdown_item,
+                    it.map { it.name })
+            }
 
-        binding.converterPicker.adapter = converterPickerAdapter
+            binding.converterPicker.adapter = converterPickerAdapter
+
+        }
+
+        viewModel.unitsForSelectedConverter.observe(viewLifecycleOwner) {
+            val adapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                viewModel.getUnitNames()
+            )
+            binding.firstNumberUnit.adapter = adapter
+            binding.firstNumberUnit.setSelection(viewModel.firstNumberUnitPosition.value ?: 0)
+            binding.secondNumberUnit.adapter = adapter
+            binding.secondNumberUnit.setSelection(viewModel.secondNumberUnitPosition.value ?: 1)
+        }
 
         binding.converterPicker.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?, view: View?, position: Int, id: Long
                 ) {
+                    Log.i("aaa", position.toString())
                     viewModel.changeConverter(position)
-                    val adapter = ArrayAdapter(
-                        requireContext(),
-                        android.R.layout.simple_spinner_dropdown_item,
-                        viewModel.getUnitNames()
-                    )
-                    binding.firstNumberUnit.adapter = adapter
-                    binding.firstNumberUnit.setSelection(viewModel.firstNumberUnitPosition.value ?: 0)
-                    binding.secondNumberUnit.adapter = adapter
-                    binding.secondNumberUnit.setSelection(viewModel.secondNumberUnitPosition.value ?: 1)
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -72,7 +89,6 @@ class ConverterFragment : Fragment() {
                 ) {
                     viewModel.setFirstNumberUnit(
                         position,
-                        binding.firstNumber.text.toString().toDoubleOrNull() ?: 0.0
                     )
                 }
 
@@ -86,7 +102,6 @@ class ConverterFragment : Fragment() {
                 ) {
                     viewModel.setSecondNumberUnit(
                         position,
-                        binding.firstNumber.text.toString().toDoubleOrNull() ?: 0.0
                     )
                 }
 
