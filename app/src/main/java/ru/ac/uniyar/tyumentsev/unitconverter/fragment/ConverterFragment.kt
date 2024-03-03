@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import ru.ac.uniyar.tyumentsev.unitconverter.R
 import ru.ac.uniyar.tyumentsev.unitconverter.database.AppDatabase
 import ru.ac.uniyar.tyumentsev.unitconverter.databinding.ConverterFragmentBinding
@@ -140,6 +141,10 @@ class ConverterFragment : Fragment() {
 
         binding.firstNumber.addTextChangedListener(firstNumberWatcher)
         binding.secondNumber.addTextChangedListener(secondNumberWatcher)
+
+        binding.actionConverterFragmentToNewConverterFragment.setOnClickListener {
+            findNavController().navigate(R.id.action_converterFragment_to_newConverterFragment)
+        }
 
         return binding.root
     }

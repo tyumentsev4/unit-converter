@@ -19,4 +19,7 @@ interface ConverterDao {
 
     @Query("SELECT * FROM UnitEntity WHERE converterId = :converterId")
     suspend fun getUnitsForConverter(converterId: Long): List<UnitEntity>
+
+    @Query("SELECT * FROM ConverterEntity WHERE id = :converterId")
+    suspend fun getConverter(converterId: Long): ConverterEntity
 }
