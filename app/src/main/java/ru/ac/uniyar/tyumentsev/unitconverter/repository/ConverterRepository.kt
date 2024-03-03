@@ -12,4 +12,5 @@ class ConverterRepository(private val converterDao: ConverterDao) {
     suspend fun getConverters(): List<ConverterEntity> = converterDao.getConverters()
 
     suspend fun getUnitsForConverter(converterId: Long): List<UnitEntity> = converterDao.getUnitsForConverter(converterId)
+    suspend fun removeConverter(converter: ConverterEntity) = converterDao.removeConverter(converter)
 }

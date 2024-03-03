@@ -12,5 +12,5 @@ data class UnitEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val name: String,
     val value: Double,
-    val converterId: Long
+    var converterId: Long
 )
