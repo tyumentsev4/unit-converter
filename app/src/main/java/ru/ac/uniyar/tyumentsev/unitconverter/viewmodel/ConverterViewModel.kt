@@ -101,4 +101,12 @@ class ConverterViewModel(private val repository: ConverterRepository) : ViewMode
         _secondNumberUnitPosition.value = 1
         loadUnitsForConverter()
     }
+
+    fun removeConverter() {
+        viewModelScope.launch {
+            repository.removeConverter(getConverter())
+            loadConverters()
+            _converterPosition.value?.minus(1)?.let { setConverter(it) }
+        }
+    }
 }

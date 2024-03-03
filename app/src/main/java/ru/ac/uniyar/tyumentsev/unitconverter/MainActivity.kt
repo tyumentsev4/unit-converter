@@ -3,6 +3,7 @@ package ru.ac.uniyar.tyumentsev.unitconverter
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import ru.ac.uniyar.tyumentsev.unitconverter.database.AppDatabase
 import ru.ac.uniyar.tyumentsev.unitconverter.viewmodel.ConverterViewModel
 import ru.ac.uniyar.tyumentsev.unitconverter.viewmodel.ConverterViewModelFactory
 

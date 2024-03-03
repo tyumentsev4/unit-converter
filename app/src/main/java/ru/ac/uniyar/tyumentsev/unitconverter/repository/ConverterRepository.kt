@@ -9,9 +9,8 @@ class ConverterRepository(private val converterDao: ConverterDao) {
 
     suspend fun insertUnit(unit: UnitEntity) = converterDao.insertUnit(unit)
 
-    suspend fun getConverter(converterId: Long): ConverterEntity = converterDao.getConverter(converterId)
-
     suspend fun getConverters(): List<ConverterEntity> = converterDao.getConverters()
 
     suspend fun getUnitsForConverter(converterId: Long): List<UnitEntity> = converterDao.getUnitsForConverter(converterId)
+    suspend fun removeConverter(converter: ConverterEntity) = converterDao.removeConverter(converter)
 }

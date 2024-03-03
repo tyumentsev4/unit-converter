@@ -1,5 +1,6 @@
 package ru.ac.uniyar.tyumentsev.unitconverter.fragment
 
+import android.app.AlertDialog
 import android.icu.text.DecimalFormat
 import android.icu.text.NumberFormat
 import android.os.Bundle
@@ -69,6 +70,12 @@ class ConverterFragment : Fragment() {
                     parent: AdapterView<*>?, view: View?, position: Int, id: Long
                 ) {
                     viewModel.setConverter(position)
+                    if (intArrayOf(0,1,2).contains(position)) {
+                        binding.removeFragment.visibility = View.GONE
+                    }
+                    else {
+                        binding.removeFragment.visibility = View.VISIBLE
+                    }
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -144,6 +151,21 @@ class ConverterFragment : Fragment() {
 
         binding.actionConverterFragmentToNewConverterFragment.setOnClickListener {
             findNavController().navigate(R.id.action_converterFragment_to_newConverterFragment)
+        }
+
+        binding.removeFragment.setOnClickListener {
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle("Confirm")
+            builder.setMessage("Are you sure you want to remove the converter?")
+
+            builder.setPositiveButton(android.R.string.yes) { _, _ ->
+                viewModel.removeConverter()
+            }
+
+            builder.setNegativeButton(android.R.string.no) { _, _ ->
+            }
+
+            builder.show()
         }
 
         return binding.root
