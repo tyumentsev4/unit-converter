@@ -98,7 +98,6 @@ class ConverterFragment : Fragment() {
                 override fun onItemSelected(
                     parent: AdapterView<*>?, view: View?, position: Int, id: Long
                 ) {
-                    Log.i("first unit", position.toString())
                     viewModel.setFirstNumberUnit(
                         position,
                         binding.firstNumber.text.toString().toDoubleOrNull() ?: 0.0
@@ -114,7 +113,6 @@ class ConverterFragment : Fragment() {
                 override fun onItemSelected(
                     parent: AdapterView<*>?, view: View?, position: Int, id: Long
                 ) {
-                    Log.i("second unit", position.toString())
                     viewModel.setSecondNumberUnit(
                         position,
                         binding.firstNumber.text.toString().toDoubleOrNull() ?: 0.0
@@ -155,8 +153,8 @@ class ConverterFragment : Fragment() {
 
         binding.removeFragment.setOnClickListener {
             val builder = AlertDialog.Builder(context)
-            builder.setTitle("Confirm")
-            builder.setMessage("Are you sure you want to remove the converter?")
+            builder.setTitle(context?.resources?.getString(R.string.confirm))
+            builder.setMessage(context?.resources?.getString(R.string.remove_converter_confirm_message))
 
             builder.setPositiveButton(android.R.string.yes) { _, _ ->
                 viewModel.removeConverter()

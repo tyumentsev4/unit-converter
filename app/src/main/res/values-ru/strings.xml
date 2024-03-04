@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">Конвертер величин</string>
+    <string name="chooseConvertor">Вырать</string>
+    <string name="unit_converter_title">Конвертер величин</string>
+    <string name="done">готово</string>
+    <string name="add_row">добавить е.и.</string>
+    <string name="name">Название:</string>
+    <string name="new_converter">Новый конвертер</string>
+    <string name="double_hint">0.0</string>
+    <string name="unit">е.и.</string>
+    <string name="delete_row">удалить е.и.</string>
+    <string name="enter_name">введите название</string>
+    <string name="add_new_converter">новый конвертер</string>
+    <string name="remove_converter">удалить конвертер</string>
+
+    <string name="length">длина</string>
+    <string name="m">м</string>
+    <string name="mm">мм</string>
+    <string name="cm">см</string>
+    <string name="dm">дм</string>
+    <string name="km">км</string>
+    <string name="mi">мили</string>
+    <string name="yd">ярды</string>
+    <string name="ft">футы</string>
+    <string name="in">дюймы</string>
+
+    <string name="weight">масса</string>
+    <string name="g">г</string>
+    <string name="μg">мкг</string>
+    <string name="mg">мг</string>
+    <string name="kg">кг</string>
+    <string name="cen">цен</string>
+    <string name="ton">т</string>
+    <string name="lb">фунт</string>
+    <string name="oz">унц</string>
+
+    <string name="volume">объем</string>
+    <string name="m3">м³</string>
+    <string name="mL">мл</string>
+    <string name="L">л</string>
+    <string name="pt">пинт</string>
+    <string name="kw">кварт</string>
+    <string name="gal">бар</string>
+    <string name="ft3">фут³</string>
+    <string name="in3">дюйм³</string>
+
+    <string name="empty_field_error_message" >Это поле не может быть пустое</string>
+    <string name="confirm">Подтверждение</string>
+    <string name="remove_converter_confirm_message">Вы уверены, что хотите удалить конвертер?</string>
+</resources>

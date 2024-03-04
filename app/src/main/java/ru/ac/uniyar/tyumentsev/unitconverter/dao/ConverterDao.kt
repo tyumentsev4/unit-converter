@@ -4,6 +4,8 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
+import org.jetbrains.annotations.Blocking
 import ru.ac.uniyar.tyumentsev.unitconverter.entities.ConverterEntity
 import ru.ac.uniyar.tyumentsev.unitconverter.entities.UnitEntity
 
