@@ -4,8 +4,6 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import androidx.room.Transaction
-import org.jetbrains.annotations.Blocking
 import ru.ac.uniyar.tyumentsev.unitconverter.entities.ConverterEntity
 import ru.ac.uniyar.tyumentsev.unitconverter.entities.UnitEntity
 
@@ -28,6 +26,7 @@ interface ConverterDao {
 
     @Query("SELECT * FROM ConverterEntity WHERE id = :converterId")
     suspend fun getConverter(converterId: Long): ConverterEntity
+
     @Delete
     suspend fun removeConverter(converter: ConverterEntity)
 }

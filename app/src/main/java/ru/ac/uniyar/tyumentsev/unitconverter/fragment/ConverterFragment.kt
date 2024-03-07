@@ -6,7 +6,6 @@ import android.icu.text.NumberFormat
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,10 +69,9 @@ class ConverterFragment : Fragment() {
                     parent: AdapterView<*>?, view: View?, position: Int, id: Long
                 ) {
                     viewModel.setConverter(position)
-                    if (intArrayOf(0,1,2).contains(position)) {
+                    if (intArrayOf(0, 1, 2).contains(position)) {
                         binding.removeFragment.visibility = View.GONE
-                    }
-                    else {
+                    } else {
                         binding.removeFragment.visibility = View.VISIBLE
                     }
                 }
@@ -99,8 +97,7 @@ class ConverterFragment : Fragment() {
                     parent: AdapterView<*>?, view: View?, position: Int, id: Long
                 ) {
                     viewModel.setFirstNumberUnit(
-                        position,
-                        binding.firstNumber.text.toString().toDoubleOrNull() ?: 0.0
+                        position, binding.firstNumber.text.toString().toDoubleOrNull() ?: 0.0
                     )
 
                 }
@@ -114,8 +111,7 @@ class ConverterFragment : Fragment() {
                     parent: AdapterView<*>?, view: View?, position: Int, id: Long
                 ) {
                     viewModel.setSecondNumberUnit(
-                        position,
-                        binding.firstNumber.text.toString().toDoubleOrNull() ?: 0.0
+                        position, binding.firstNumber.text.toString().toDoubleOrNull() ?: 0.0
                     )
                 }
 

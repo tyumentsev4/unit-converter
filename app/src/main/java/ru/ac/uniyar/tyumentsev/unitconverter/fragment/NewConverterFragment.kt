@@ -54,14 +54,10 @@ class NewConverterFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.new_converter_fragment,
-            container,
-            false
+            inflater, R.layout.new_converter_fragment, container, false
         )
         val application = requireNotNull(this.activity).application
         val dao = AppDatabase.getDatabase(application).converterDao()

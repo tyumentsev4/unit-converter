@@ -1,6 +1,5 @@
 package ru.ac.uniyar.tyumentsev.unitconverter.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -13,9 +12,12 @@ class NewConverterViewModel(private val repository: ConverterRepository) : ViewM
     fun createConverter(converterName: String, units: List<UnitDto>) {
         viewModelScope.launch {
             val newConverterId = repository.insertConverter(ConverterEntity(name = converterName))
-            Log.i("lll", units.toString())
             units.forEach { unit ->
-                repository.insertUnit(UnitEntity(name=unit.name, value = unit.value, converterId = newConverterId))
+                repository.insertUnit(
+                    UnitEntity(
+                        name = unit.name, value = unit.value, converterId = newConverterId
+                    )
+                )
             }
         }
     }

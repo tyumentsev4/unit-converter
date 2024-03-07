@@ -56,25 +56,23 @@ class ConverterViewModel(private val repository: ConverterRepository) : ViewMode
     }
 
     private fun getConverter(): ConverterEntity {
-        return converters.value!![converterPosition.value!!]
+        return converters.value!![converterPosition.value ?: 0]
     }
 
     fun calculateFirstNumber(number: Double) {
-        _firstNumber.value =
-            number * getSecondNumberUnit() / getFirstNumberUnit()
+        _firstNumber.value = number * getSecondNumberUnit() / getFirstNumberUnit()
     }
 
     fun calculateSecondNumber(number: Double) {
-        _secondNumber.value =
-            number * getFirstNumberUnit() / getSecondNumberUnit()
+        _secondNumber.value = number * getFirstNumberUnit() / getSecondNumberUnit()
     }
 
     private fun getFirstNumberUnit(): Double {
-        return _unitsForSelectedConverter.value!![firstNumberUnitPosition.value!!].value
+        return _unitsForSelectedConverter.value!![firstNumberUnitPosition.value ?: 0].value
     }
 
     private fun getSecondNumberUnit(): Double {
-        return _unitsForSelectedConverter.value!![secondNumberUnitPosition.value!!].value
+        return _unitsForSelectedConverter.value!![secondNumberUnitPosition.value ?: 1].value
     }
 
     fun getUnitNames(): List<String> {
@@ -96,9 +94,11 @@ class ConverterViewModel(private val repository: ConverterRepository) : ViewMode
     }
 
     fun setConverter(position: Int) {
-        _converterPosition.value = position
-        _firstNumberUnitPosition.value = 0
-        _secondNumberUnitPosition.value = 1
+        if (_converterPosition.value != position) {
+            _converterPosition.value = position
+            _firstNumberUnitPosition.value = 0
+            _secondNumberUnitPosition.value = 1
+        }
         loadUnitsForConverter()
     }
 
