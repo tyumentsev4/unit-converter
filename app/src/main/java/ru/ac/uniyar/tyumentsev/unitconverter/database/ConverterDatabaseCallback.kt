@@ -40,35 +40,35 @@ class ConverterDatabaseCallback(
                                 converterId = converterId
                             ), UnitEntity(
                                 name = context.resources.getString(R.string.mm),
-                                value = 0.001,
-                                converterId = converterId
-                            ), UnitEntity(
-                                name = context.resources.getString(R.string.cm),
-                                value = 0.01,
-                                converterId = converterId
-                            ), UnitEntity(
-                                name = context.resources.getString(R.string.dm),
-                                value = 0.1,
-                                converterId = converterId
-                            ), UnitEntity(
-                                name = context.resources.getString(R.string.km),
                                 value = 1000.0,
                                 converterId = converterId
                             ), UnitEntity(
+                                name = context.resources.getString(R.string.cm),
+                                value = 100.0,
+                                converterId = converterId
+                            ), UnitEntity(
+                                name = context.resources.getString(R.string.dm),
+                                value = 10.0,
+                                converterId = converterId
+                            ), UnitEntity(
+                                name = context.resources.getString(R.string.km),
+                                value = 0.001,
+                                converterId = converterId
+                            ), UnitEntity(
                                 name = context.resources.getString(R.string.mi),
-                                value = 1609.35,
+                                value = 0.000621371,
                                 converterId = converterId
                             ), UnitEntity(
                                 name = context.resources.getString(R.string.yd),
-                                value = 0.9144,
+                                value = 1.09361,
                                 converterId = converterId
                             ), UnitEntity(
                                 name = context.resources.getString(R.string.ft),
-                                value = 0.3048,
+                                value = 3.28084,
                                 converterId = converterId
                             ), UnitEntity(
                                 name = context.resources.getString(R.string.`in`),
-                                value = 0.0254,
+                                value = 39.3701,
                                 converterId = converterId
                             )
                         )
@@ -82,15 +82,15 @@ class ConverterDatabaseCallback(
                                 converterId = converterId
                             ), UnitEntity(
                                 name = context.resources.getString(R.string.μg),
-                                value = 0.000001,
+                                value = 1000000.0,
                                 converterId = converterId
                             ), UnitEntity(
                                 name = context.resources.getString(R.string.mg),
-                                value = 0.001,
+                                value = 1000.0,
                                 converterId = converterId
                             ), UnitEntity(
                                 name = context.resources.getString(R.string.kg),
-                                value = 1000.0,
+                                value = 0.001,
                                 converterId = converterId
                             ), UnitEntity(
                                 name = context.resources.getString(R.string.cen),
@@ -102,11 +102,11 @@ class ConverterDatabaseCallback(
                                 converterId = converterId
                             ), UnitEntity(
                                 name = context.resources.getString(R.string.lb),
-                                value = 453.5922,
+                                value = 0.00220462,
                                 converterId = converterId
                             ), UnitEntity(
                                 name = context.resources.getString(R.string.oz),
-                                value = 28.3495,
+                                value = 0.035274,
                                 converterId = converterId
                             )
                         )
@@ -141,7 +141,7 @@ class ConverterDatabaseCallback(
                             ),
                             UnitEntity(
                                 name = context.resources.getString(R.string.gal),
-                                value = 1056.688,
+                                value = 264.172,
                                 converterId = converterId
                             ),
                             UnitEntity(
@@ -151,7 +151,7 @@ class ConverterDatabaseCallback(
                             ),
                             UnitEntity(
                                 name = context.resources.getString(R.string.in3),
-                                value = 1023.744,
+                                value = 61023.744,
                                 converterId = converterId
                             ),
                         )

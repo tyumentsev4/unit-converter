@@ -38,7 +38,7 @@ class ConverterViewModel(private val repository: ConverterRepository) : ViewMode
         loadConverters()
     }
 
-    private fun loadConverters() {
+    fun loadConverters() {
         viewModelScope.launch {
             _converters.value = repository.getConverters()
             setConverter(0)
@@ -48,31 +48,33 @@ class ConverterViewModel(private val repository: ConverterRepository) : ViewMode
     private fun loadUnitsForConverter() {
         viewModelScope.launch {
             _unitsForSelectedConverter.value = getConverter().let {
-                repository.getUnitsForConverter(
-                    it.id
-                )
+                it?.let { it1 ->
+                    repository.getUnitsForConverter(
+                        it1.id
+                    )
+                }
             }
         }
     }
 
-    private fun getConverter(): ConverterEntity {
-        return converters.value!![converterPosition.value ?: 0]
+    private fun getConverter(): ConverterEntity? {
+        return converters.value?.getOrNull(converterPosition.value ?: 0)
     }
 
     fun calculateFirstNumber(number: Double) {
-        _firstNumber.value = number * getSecondNumberUnit() / getFirstNumberUnit()
+        _firstNumber.value = number * getFirstNumberUnit() / getSecondNumberUnit()
     }
 
     fun calculateSecondNumber(number: Double) {
-        _secondNumber.value = number * getFirstNumberUnit() / getSecondNumberUnit()
+        _secondNumber.value = number * getSecondNumberUnit() / getFirstNumberUnit()
     }
 
     private fun getFirstNumberUnit(): Double {
-        return _unitsForSelectedConverter.value!![firstNumberUnitPosition.value ?: 0].value
+        return _unitsForSelectedConverter.value?.getOrNull(firstNumberUnitPosition.value ?: 0)?.value?:1.0
     }
 
     private fun getSecondNumberUnit(): Double {
-        return _unitsForSelectedConverter.value!![secondNumberUnitPosition.value ?: 1].value
+        return _unitsForSelectedConverter.value?.getOrNull(secondNumberUnitPosition.value ?: 1)?.value?:1.0
     }
 
     fun getUnitNames(): List<String> {
@@ -104,7 +106,7 @@ class ConverterViewModel(private val repository: ConverterRepository) : ViewMode
 
     fun removeConverter() {
         viewModelScope.launch {
-            repository.removeConverter(getConverter())
+            getConverter()?.let { repository.removeConverter(it) }
             loadConverters()
             _converterPosition.value?.minus(1)?.let { setConverter(it) }
         }

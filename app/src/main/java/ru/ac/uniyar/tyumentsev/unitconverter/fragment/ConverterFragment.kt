@@ -162,6 +162,11 @@ class ConverterFragment : Fragment() {
             builder.show()
         }
 
+        binding.swiperefresh.setOnRefreshListener {
+            viewModel.loadConverters()
+            binding.swiperefresh.isRefreshing = false
+        }
+
         return binding.root
     }
 

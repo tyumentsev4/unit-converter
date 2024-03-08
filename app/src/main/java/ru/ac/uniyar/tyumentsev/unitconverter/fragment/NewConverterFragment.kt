@@ -100,7 +100,7 @@ class NewConverterFragment : Fragment() {
                             context?.resources?.getString(R.string.empty_field_error_message)
                         return@setOnClickListener
                     }
-                    units = units.plus(UnitDto(name = unitName, value = 1 / number))
+                    units = units.plus(UnitDto(name = unitName, value = number))
                 }
             }
             viewModel.createConverter(converterName, units)

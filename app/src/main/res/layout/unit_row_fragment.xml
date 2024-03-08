@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="8dp"
+        android:autofillHints=""
         android:hint="@string/double_hint"
         android:inputType="numberDecimal"
         android:textSize="24sp"
@@ -19,24 +20,22 @@
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.60"
-        android:autofillHints="" />
-    />
+        app:layout_constraintWidth_percent="0.60" />
 
     <EditText
         android:id="@+id/editUnit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:autofillHints=""
         android:hint="@string/unit"
+        android:inputType="text"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/removeRowButton"
         app:layout_constraintEnd_toStartOf="@+id/removeRowButton"
         app:layout_constraintStart_toEndOf="@+id/editNumber"
         app:layout_constraintTop_toTopOf="@+id/removeRowButton"
         app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.15"
-        android:autofillHints=""
-        android:inputType="text" />
+        app:layout_constraintWidth_percent="0.15" />
     />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -45,12 +44,12 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:clickable="true"
+        android:contentDescription="@string/delete_row"
+        android:focusable="true"
         android:src="@android:drawable/ic_menu_delete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/editNumber"
         app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.10"
-        android:contentDescription="@string/delete_row"
-        android:focusable="true" />
+        app:layout_constraintWidth_percent="0.10" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
